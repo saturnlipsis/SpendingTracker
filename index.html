@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <title>Spending Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icono para las pestañas del navegador en PC y Android -->
+<link rel="icon" type="image/png" sizes="32x32" href="icon.jpg">
+<link rel="icon" type="image/png" sizes="192x192" href="icon.jpg">
+
+<!-- Icono especial para la pantalla de inicio en iPhone/iPad (iOS) -->
+<link rel="apple-touch-icon" href="icon.jpg">
+
+<!-- Color de la barra de estado superior del navegador en móviles -->
+<meta name="theme-color" content="#E9B9FF">
+
+<!-- Nombre corto de la app cuando la guardan en el móvil -->
+<meta name="apple-mobile-web-app-title" content="Spending Tracker">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+
+<body>
+
+<main class="app">
+
+    <!-- ================= HOME ================= -->
+
+    <section id="homeScreen" class="screen active">
+
+        <h1>Spending Tracker</h1>
+
+        <div class="available-money">
+
+            <p>Available money</p>
+
+            <button
+                id="availableMoneyButton"
+                class="money-button"
+            >
+                0€
+            </button>
+
+            <button
+                id="addMoneyButton"
+                class="add-money-button"
+            >
+                + Add money
+            </button>
+
+            <span>This month</span>
+
+        </div>
+
+        <div class="home-buttons">
+
+            <button
+                id="addExpenseButton"
+                class="main-button"
+            >
+                Add expense
+            </button>
+
+            <button
+                id="viewExpensesButton"
+                class="main-button"
+            >
+                View expenses
+            </button>
+
+            <button
+                id="categoriesButton"
+                class="main-button"
+            >
+                Categories
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ADD EXPENSE ================= -->
+
+    <section id="addExpenseScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="homeScreen"
+            >
+                ‹
+            </button>
+
+            <h2>Add expense</h2>
+
+        </header>
+
+
+        <div class="form">
+
+            <label>
+                Expense name
+
+                <input
+                    type="text"
+                    id="expenseName"
+                    placeholder="e.g. Mercadona"
+                >
+            </label>
+
+
+            <label>
+                Amount
+
+                <input
+                    type="number"
+                    id="expenseAmount"
+                    placeholder="0€"
+                    min="0"
+                    step="1"
+                >
+            </label>
+
+
+            <label>
+                Date
+
+                <input
+                    type="date"
+                    id="expenseDate"
+                >
+            </label>
+
+
+            <label>
+                Category
+
+                <button
+                    id="categorySelector"
+                    class="select-button"
+                >
+                    Choose
+                </button>
+            </label>
+
+
+            <!-- CATEGORY DROPDOWN -->
+
+            <div
+                id="categoryDropdown"
+                class="dropdown hidden"
+            >
+
+                <div id="categoryList"></div>
+
+                <button
+                    id="createCategoryFromExpense"
+                    class="dropdown-create"
+                >
+                    + Create category
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ONLY APPEARS WHEN COMPLETE -->
+
+        <button
+            id="saveExpenseButton"
+            class="save-button hidden"
+        >
+            +
+        </button>
+
+    </section>
+
+
+    <!-- ================= CREATE CATEGORY ================= -->
+
+    <section id="createCategoryScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="addExpenseScreen"
+            >
+                ‹
+            </button>
+
+            <h2>Create category</h2>
+
+        </header>
+
+
+        <div class="form">
+
+            <label>
+                Category name
+
+                <input
+                    type="text"
+                    id="categoryName"
+                    placeholder="e.g. Food"
+                >
+            </label>
+
+
+            <label>
+                Monthly limit
+
+                <input
+                    type="number"
+                    id="categoryLimit"
+                    placeholder="0€"
+                    min="0"
+                    step="1"
+                >
+            </label>
+
+        </div>
+
+
+        <button
+            id="saveCategoryButton"
+            class="check-button"
+        >
+            ✓
+        </button>
+
+    </section>
+
+
+    <!-- ================= CATEGORIES ================= -->
+
+    <section id="categoriesScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="homeScreen"
+            >
+                ‹
+            </button>
+
+            <h2>Categories</h2>
+
+        </header>
+
+
+        <div
+            id="categoriesList"
+            class="categories-list"
+        ></div>
+
+
+        <button
+            id="createCategoryButton"
+            class="main-button"
+        >
+            + Create category
+        </button>
+
+    </section>
+
+
+    <!-- ================= EDIT CATEGORY ================= -->
+
+    <section id="editCategoryScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="categoriesScreen"
+            >
+                ‹
+            </button>
+
+            <h2>Edit category</h2>
+
+        </header>
+
+
+        <div class="form">
+
+            <label>
+                Category name
+
+                <input
+                    type="text"
+                    id="editCategoryName"
+                >
+            </label>
+
+
+            <label>
+                Monthly limit
+
+                <input
+                    type="number"
+                    id="editCategoryLimit"
+                    min="0"
+                    step="1"
+                >
+            </label>
+
+        </div>
+
+
+        <button
+            id="updateCategoryButton"
+            class="check-button"
+        >
+            ✓
+        </button>
+
+    </section>
+
+
+    <!-- ================= VIEW EXPENSES ================= -->
+
+    <section id="viewExpensesScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="homeScreen"
+            >
+                ‹
+            </button>
+
+            <h2>View expenses</h2>
+
+        </header>
+
+
+        <div class="month-selector">
+
+            <button id="previousMonthButton">
+                ‹
+            </button>
+
+            <span id="currentMonthLabel">
+                September 2026
+            </span>
+
+            <button id="nextMonthButton">
+                ›
+            </button>
+
+        </div>
+
+
+        <div class="month-summary">
+
+            <p>Total spent</p>
+
+            <strong id="totalSpent">
+                0€
+            </strong>
+
+        </div>
+
+
+        <div
+            id="expenseCategories"
+            class="expense-categories"
+        ></div>
+
+
+        <p
+            id="monthResult"
+            class="month-result"
+        ></p>
+
+    </section>
+
+
+    <!-- ================= CATEGORY DETAIL ================= -->
+
+    <section id="categoryDetailScreen" class="screen">
+
+        <header class="screen-header">
+
+            <button
+                class="back-button"
+                data-back="viewExpensesScreen"
+            >
+                ‹
+            </button>
+
+            <h2 id="categoryDetailTitle">
+                Category
+            </h2>
+
+        </header>
+
+
+        <div class="category-detail-summary">
+
+            <p>Spent</p>
+
+            <strong id="categoryDetailSpent">
+                0€
+            </strong>
+
+            <span id="categoryDetailLimit">
+                Limit: 0€
+            </span>
+
+        </div>
+
+
+        <div
+            id="categoryExpensesList"
+            class="category-expenses-list"
+        ></div>
+
+    </section>
+
+
+    <!-- ================= MONEY MODAL ================= -->
+
+    <div
+        id="moneyModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+            <h3>Available money</h3>
+
+            <p>
+                How much money do you have available
+                to spend this month?
+            </p>
+
+
+            <input
+                type="number"
+                id="availableMoneyInput"
+                placeholder="0€"
+                min="0"
+                step="1"
+            >
+
+
+            <div class="modal-buttons">
+
+                <button id="cancelMoneyButton">
+                    Cancel
+                </button>
+
+                <button id="saveMoneyButton">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DELETE MODAL ================= -->
+
+    <div
+        id="deleteModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+            <h3>Delete expense?</h3>
+
+            <p>
+                This action cannot be undone.
+            </p>
+
+
+            <div class="modal-buttons">
+
+                <button id="cancelDeleteButton">
+                    Cancel
+                </button>
+
+                <button
+                    id="confirmDeleteButton"
+                    class="delete-confirm-button"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
